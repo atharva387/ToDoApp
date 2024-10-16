@@ -1,21 +1,45 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import * as SplashScreen from 'expo-splash-screen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from './LoginScreen';
+import RegisterScreen from './RegisterScreen';
+import TodoList from './TodoList';
 
-export default function App() {
+// Prevent the splash screen from auto-hiding
+SplashScreen.preventAutoHideAsync();
+
+const Stack = createNativeStackNavigator();
+
+const App = () => {
+  useEffect(() => {
+    const prepare = async () => {
+      // Simulate a loading time
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Hide the splash screen after loading
+      await SplashScreen.hideAsync();
+    };
+    prepare();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="TodoList" component={TodoList} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });
+
+export default App;
