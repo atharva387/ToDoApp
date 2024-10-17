@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
 import TodoList from './TodoList';
+import AddTask from './AddTask';
 
 // Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
@@ -19,6 +20,7 @@ const App = () => {
       await new Promise(resolve => setTimeout(resolve, 2000));
       // Hide the splash screen after loading
       await SplashScreen.hideAsync();
+      await Notifications.requestPermissionsAsync();
     };
     prepare();
   }, []);
@@ -29,6 +31,7 @@ const App = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="TodoList" component={TodoList} />
+        <Stack.Screen name="AddTask" component={AddTask} />
       </Stack.Navigator>
     </NavigationContainer>
   );
